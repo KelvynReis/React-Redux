@@ -29,7 +29,14 @@ export default createGlobalStyle`
     padding: 10px 20px;
     border-radius: 4px;
     font-weight: 700;
+    font-size: 0.95em;
+    transition: all 300ms;
   }
+
+  button:hover{
+    filter: brightness(80%);
+  }
+
   a{
     text-decoration: none;
     color: ${colors.primaryColor};
