@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import { isEmail } from 'validator';
+import { get } from 'lodash';
 import { Container } from '../../styles/GlobalStyles';
 import { Form } from './styled';
+import axios from '../../services/axios';
+import history from '../../services/history';
 
 export default function Register() {
   const [name, setName] = useState('');
@@ -9,14 +14,46 @@ export default function Register() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log(name, email, password);
+
+    let formErros = false;
+
+    if (name.length < 3 || name.length > 255) {
+      formErros = true;
+      toast.error('Nome deve ter entre 3 e 255 caracteres');
+    }
+
+    if (!isEmail(email)) {
+      formErros = true;
+      toast.error('email inválido');
+    }
+
+    if (password.length < 6 || password.length > 255) {
+      formErros = true;
+      toast.error('senha deve ter entre 6 e 50 caracteres');
+    }
+
+    if (formErros) return;
+
+    try {
+      await axios.post('/users', {
+        name,
+        email,
+        password,
+      });
+
+      toast.success('Usuário criado com sucesso');
+      history.push('/login');
+    } catch (err) {
+      const errors = get(err, 'response.data.erros', []);
+      errors.map((error) => toast.error(error));
+    }
   }
 
   return (
     <Container>
       <h1> Crie sua conta</h1>
 
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={(e) => handleSubmit(e)}>
         <label htmlFor="name">
           Nome:
           <input
