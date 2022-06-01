@@ -14,7 +14,7 @@ export default createGlobalStyle`
   body{
     font-family: sans-serif;
     background: ${colors.primaryDarkColor};
-    color: ${colors.primaryColor};
+    color: ${colors.primaryDarkColor};
   }
 
   html, body, #root{
