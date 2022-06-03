@@ -45,7 +45,7 @@ function* registerRequest({ payload }) {
       yield put(actions.registerUpdatedSuccess({ name, email, password }));
     } else {
       yield call(axios.post, '/users', {
-        nome: 'julys',
+        name,
         email,
         password,
       });
