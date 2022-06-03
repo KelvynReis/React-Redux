@@ -13,10 +13,12 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const isLoading = useSelector((state) => state.auth.isLoading);
-  const { id, nameStored, emailStored } = useSelector(
-    (state) => state.auth.user
-  );
+
+  const nameStored = useSelector((state) => state.auth.user.nome);
+  const emailStored = useSelector((state) => state.auth.user.email);
+  const id = useSelector((state) => state.auth.user.id);
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (!id) return;
 
@@ -46,7 +48,7 @@ export default function Register() {
 
     if (formErros) return;
 
-    dispatch(actions.registerRequest(name, email, password, id));
+    dispatch(actions.registerRequest({ name, email, password, id }));
   }
 
   return (
