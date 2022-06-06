@@ -66,7 +66,7 @@ export default function Alunos() {
         {alunos.map((aluno, index) => (
           <div key={String(aluno.id)}>
             <ProfilePicture>
-              {get(aluno, '.Fotos[0].url', false) ? (
+              {get(aluno, 'Fotos[0].url', false) ? (
                 <img src={aluno.Fotos[0].url} alt="" />
               ) : (
                 <FaUserCircle size={36} />

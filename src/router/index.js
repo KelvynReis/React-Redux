@@ -7,7 +7,7 @@ import Login from '../pages/Login';
 import Alunos from '../pages/Alunos';
 import Aluno from '../pages/Aluno';
 import Register from '../pages/Register';
-import Fotos from '../pages/Fotos';
+import Fotos from '../pages/Picture';
 import Page404 from '../pages/Page404';
 
 export default function Routers() {

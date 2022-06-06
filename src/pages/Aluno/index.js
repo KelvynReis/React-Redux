@@ -4,15 +4,17 @@ import PropTypes from 'prop-types';
 import { isEmail, isInt, isFloat } from 'validator';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
+import { FaUserCircle, FaEdit } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import axios from '../../services/axios';
 import history from '../../services/history';
 import { Container } from '../../styles/GlobalStyles';
-import { Form } from './styled';
+import { Form, ProfilePicture, Title } from './styled';
 import Loading from '../../components/Loading';
 import * as actions from '../../store/modules/auth/actions';
 
 export default function Aluno({ match }) {
-  const id = get(match, 'params.id', 0);
+  const id = get(match, 'params.id', '');
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -20,6 +22,8 @@ export default function Aluno({ match }) {
   const [weight, setWeight] = useState('');
   const [height, setHeight] = useState('');
   const [isLoading, setIsloading] = useState(false);
+
+  const [picture, setPicture] = useState('');
 
   const dispatch = useDispatch();
 
@@ -30,7 +34,8 @@ export default function Aluno({ match }) {
       try {
         setIsloading(true);
         const { data } = await axios.get(`/alunos/${id}`);
-        // const Foto = get(data, 'Foto[0].url', '');
+        const Foto = get(data, 'Foto[0].url', '');
+        setPicture(Foto);
 
         setName(data.nome);
         setLastName(data.sobrenome);
@@ -134,7 +139,20 @@ export default function Aluno({ match }) {
   return (
     <Container>
       <Loading isLoading={isLoading} />
-      <h1> {id ? 'Editar Aluno' : 'Novo Aluno'} </h1>
+      <Title> {id ? 'Editar Aluno' : 'Novo Aluno'} </Title>
+
+      {id && (
+        <ProfilePicture>
+          {picture ? (
+            <img src={picture} alt={name} />
+          ) : (
+            <FaUserCircle size={180} />
+          )}
+          <Link to={`/fotos/${id}`}>
+            <FaEdit size={24} />
+          </Link>
+        </ProfilePicture>
+      )}
 
       <Form onSubmit={(e) => handleSubmit(e)}>
         <label htmlFor="name">
